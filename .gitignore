@@ -1,0 +1,23 @@
+﻿# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Node
+node_modules/
+dist/
+build/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+
+# Env vars
+.env
+.env.local
+
+# OS generated
+.DS_Store
+Thumbs.db

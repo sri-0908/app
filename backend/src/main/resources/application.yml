@@ -1,0 +1,70 @@
+﻿spring:
+  application:
+    name: btcfi-yield-optimizer
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:btcfi_db}
+    username: ${DB_USERNAME:btcfi_user}
+    password: ${DB_PASSWORD:btcfi_password}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    time-zone: UTC
+
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /
+
+goat:
+  network:
+    rpc-url: ${GOAT_RPC_URL:https://rpc.goat.network}
+    chain-id: ${GOAT_CHAIN_ID:2345}
+    agent-private-key: ${AGENT_PRIVATE_KEY:0x0000000000000000000000000000000000000000000000000000000000000001}
+    contract:
+      yield-pool: ${YIELD_POOL_CONTRACT:0x0000000000000000000000000000000000000001}
+      micropayment: ${MICROPAYMENT_CONTRACT:0x0000000000000000000000000000000000000002}
+      erc8004-registry: ${ERC8004_CONTRACT:0x0000000000000000000000000000000000000003}
+
+agent:
+  rebalance:
+    apy-threshold: ${APY_THRESHOLD:1.5}
+    scan-interval-ms: ${SCAN_INTERVAL:60000}
+    max-gas-price-gwei: ${MAX_GAS_GWEI:50}
+  micropayment:
+    fee-per-rebalance: ${FEE_PER_REBALANCE:0.001}
+  identity:
+    agent-name: ${AGENT_NAME:BTCFi-YieldBot-v1}
+    agent-version: ${AGENT_VERSION:1.0.0}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.btcfi: INFO
+    org.web3j: WARN
+    org.springframework: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
